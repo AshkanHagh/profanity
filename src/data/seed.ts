@@ -1,6 +1,6 @@
 import fs from 'fs';
 import csv from 'csv-parser';
-import index from '../configs/upstash.vector.config';
+import { vectorClient } from '../configs/upstash.vector.config';
  
 type Row = {text : string}
 
@@ -23,7 +23,7 @@ const seed = async () => {
         const formatted = chunk.map((row, batchIndex) => {
             return {data : row.text, id : i + batchIndex, metadata : {text : row.text}}
         });
-        await index.upsert(formatted);
+        await vectorClient.upsert(formatted);
     }
 }
 
